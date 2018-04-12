@@ -1,5 +1,6 @@
 //继承方法
 //1.原型链继承
+// 原型模式的每个实例都是访问同一属性同一函数，，函数不用重新创建
 function A() {
   this.name = "A";
 }
@@ -10,7 +11,16 @@ B.prototype = new A();
 let b = new B();
 console.log(b.name); //A
 
+function Person() {
+  this.x = 1000;
+}
+Person.prototype.name = "person";
+
+let Tom = new Person();
 //2.构造函数继承
+// new的过程做了三件事①创建了一个对象；②将this指向这个对象；③返回这个对象；
+// 两个实例对象都有一个属性constructor(构造函数)，指向Person；这就是可以通过constructor判断对象类型的原理。
+// 存在的问题：构造函数的每个方法都要在实例上重新创建一遍，虽然函数名是一样的，但是不相等的。
 function C() {
   this.name = "C";
 }
@@ -62,3 +72,16 @@ function inheritPrototype(subType, superType) {
   prototype.constructor = subType; //增强对象
   subType.prototype = prototype; //指定对象
 }
+
+//工厂模式
+// 工厂函数的优势：避免的大量的重复代码；
+// 工厂函数的劣势：其创建的对象不能标志为一种特定的类型，没有解决对象识别的问题，不知道对象的类型。构造函数能很好的解决这个问题。
+function person(name, age) {
+  let obj = {};
+  (obj.name = name), (obj.age = age);
+  obj.sayHello = () => {
+    console.log("Hello");
+  };
+  return obj;
+}
+let obj1 = person("obj1", 11);
