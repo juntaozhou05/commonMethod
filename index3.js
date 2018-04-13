@@ -1,3 +1,17 @@
+//rem布局  根据浏览器大小动态设置fontSize
+(function(doc, win) {
+  var docEl = doc.documentElement,
+    resizeEvt = "orientationchange" in window ? "orientationchange" : "resize",
+    recalc = function() {
+      var clientWidth = docEl.clientWidth;
+      if (!clientWidth) return;
+      docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
+    };
+  if (!doc.addEventListener) return;
+  win.addEventListener(resizeEvt, recalc, false);
+  doc.addEventListener("DOMContentLoaded", recalc, false);
+})(document, window);
+
 //判断字符串里每个字符出现的次数
 function itmes(str) {
   let obj = {};
@@ -82,12 +96,3 @@ function find(arr, target, low, high) {
 }
 let arr1 = [1, 2, 3, 4, 5];
 find(arr1, 2, 0, arr1.length - 1);
-
-//阶乘
-function factrol(n) {
-  if (n <= 1) {
-    return 1;
-  } else {
-    return n * factrol(n - 1);
-  }
-}

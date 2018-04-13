@@ -1,13 +1,17 @@
-//rem布局  根据浏览器大小动态设置fontSize
-(function(doc, win) {
-  var docEl = doc.documentElement,
-    resizeEvt = "orientationchange" in window ? "orientationchange" : "resize",
-    recalc = function() {
-      var clientWidth = docEl.clientWidth;
-      if (!clientWidth) return;
-      docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
-    };
-  if (!doc.addEventListener) return;
-  win.addEventListener(resizeEvt, recalc, false);
-  doc.addEventListener("DOMContentLoaded", recalc, false);
-})(document, window);
+//阶乘
+function factrol(n) {
+  if (n <= 1) {
+    return 1;
+  } else {
+    return n * factrol(n - 1);
+  }
+}
+
+//汉罗塔
+function han(num, from, helper, to) {
+  if (num > 0) {
+    han(num - 1, from, to, helper);
+    console.log(num + " from " + from + " to " + to);
+    han(num - 1, helper, from, to);
+  }
+}
