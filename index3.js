@@ -1,8 +1,8 @@
 //rem布局  根据浏览器大小动态设置fontSize
-(function(doc, win) {
+(function (doc, win) {
   var docEl = doc.documentElement,
     resizeEvt = "orientationchange" in window ? "orientationchange" : "resize",
-    recalc = function() {
+    recalc = function () {
       var clientWidth = docEl.clientWidth;
       if (!clientWidth) return;
       docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
@@ -127,3 +127,11 @@ function queen(index) {
   }
 }
 queen(0); //从第0行进行试探
+
+//判断是否是闰年
+if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+  printf("%s\n", "今年是闰年");
+}
+else {
+  printf("%s\n", "今年是平年");
+}
