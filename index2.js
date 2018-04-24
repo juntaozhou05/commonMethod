@@ -15,3 +15,16 @@ function han(num, from, helper, to) {
     han(num - 1, helper, from, to);
   }
 }
+
+//驼峰和下划线互转
+var s = "fooStyleCss";
+s = s.replace(/([A-Z])/g, "-$1").toLowerCase();
+console.log(s)
+
+var s1 = "style-sheet-base";
+var a = s1.split("-");
+var o = a[0];
+for (var i = 1; i < a.length; i++) {
+  o = o + a[i].slice(0, 1).toUpperCase() + a[i].slice(1);
+}
+console.log(o)
