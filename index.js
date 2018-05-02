@@ -9,7 +9,7 @@ function B() {
 }
 B.prototype = new A();
 let b = new B();
-console.log(b.name); //A
+//console.log(b.name); //A
 
 function Person() {
   this.x = 1000;
@@ -29,7 +29,7 @@ function D() {
   C.call(this);
 }
 let d = new D();
-console.log(d.name); //C
+//console.log(d.name); //C
 
 //3.组合继承
 function Box(age) {
@@ -44,8 +44,8 @@ function Desk(age) {
 }
 
 let desk = new Desk("66");
-console.log(desk.name); //box
-console.log(desk.age); //66
+//console.log(desk.name); //box
+// console.log(desk.age); //66
 
 //原型式继承
 function obj(o) {
@@ -59,7 +59,7 @@ let box = {
   age: 88
 };
 let box1 = obj(box);
-console.log(box1.name); //Lee
+// console.log(box1.name); //Lee
 
 //寄生组合继承
 function object(o) {
@@ -85,3 +85,79 @@ function person(name, age) {
   return obj;
 }
 let obj1 = person("obj1", 11);
+
+//浅拷贝
+function copy1(o) {
+  const obj = {};
+  for (let i in o) {
+    obj[i] = o[i];
+  }
+  return obj;
+}
+//test
+const Obj1 = {
+  a: "a",
+  b: [1, 2, 3],
+  c: { h: { i: 2 } }
+};
+let newObj = copy1(Obj1);
+// console.log(newObj.a);
+Obj1.b[0] = 5;
+// console.log(newObj.b[0]);
+
+//深拷贝 转字符串
+//1.他无法实现对函数 、RegExp等特殊对象的克隆
+// 2.会抛弃对象的constructor,所有的构造函数会指向Object
+// 3.对象有循环引用,会报错
+function copy2(o) {
+  return JSON.parse(JSON.stringify(0));
+}
+
+//深拷贝
+const clone = parent => {
+  // 维护两个储存循环引用的数组
+  const parents = [];
+  const children = [];
+
+  const _clone = parent => {
+    if (parent === null) return null;
+    if (typeof parent !== "object") return parent;
+
+    let child, proto;
+
+    if (isType(parent, "Array")) {
+      // 对数组做特殊处理
+      child = [];
+    } else if (isType(parent, "RegExp")) {
+      // 对正则对象做特殊处理
+      child = new RegExp(parent.source, getRegExp(parent));
+      if (parent.lastIndex) child.lastIndex = parent.lastIndex;
+    } else if (isType(parent, "Date")) {
+      // 对Date对象做特殊处理
+      child = new Date(parent.getTime());
+    } else {
+      // 处理对象原型
+      proto = Object.getPrototypeOf(parent);
+      // 利用Object.create切断原型链
+      child = Object.create(proto);
+    }
+
+    // 处理循环引用
+    const index = parents.indexOf(parent);
+
+    if (index != -1) {
+      // 如果父数组存在本对象,说明之前已经被引用过,直接返回此对象
+      return children[index];
+    }
+    parents.push(parent);
+    children.push(child);
+
+    for (let i in parent) {
+      // 递归
+      child[i] = _clone(parent[i]);
+    }
+
+    return child;
+  };
+  return _clone(parent);
+};
