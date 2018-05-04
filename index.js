@@ -114,6 +114,27 @@ function copy2(o) {
 }
 
 //深拷贝
+//判断对象类型
+const isType = (obj, type) => {
+  if (typeof obj !== "object") return false;
+  const typeString = Object.prototype.toString.call(obj);
+  let flag;
+  switch (type) {
+    case "Array":
+      flag = typeString === "[object Array]";
+      break;
+    case "Date":
+      flag = typeString === "[object Date]";
+      break;
+    case "RegExp":
+      flag = typeString === "[object RegExp]";
+      break;
+    default:
+      flag = false;
+  }
+  return flag;
+};
+
 const clone = parent => {
   // 维护两个储存循环引用的数组
   const parents = [];
