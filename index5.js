@@ -39,3 +39,34 @@ async function runFn() {
 runFn().then(val => {
   console.log(val);
 });
+
+//函数节流
+function throttle(fn, delay) {
+  delay = delay || 50;
+  let statTime = 0;
+  return function() {
+    statTime === 0 && fn.apply(arguments);
+    let currentTime = new Date();
+    if ((currentTime = statTime > delay)) {
+      fn.apply(arguments);
+      statTime = currentTime;
+    }
+  };
+}
+
+let throttleFn = throttle(fn);
+throttleFn();
+throttleFn();
+throttleFn();
+throttleFn(); //只会执行一次
+
+//防抖
+function debounce(fn, delay) {
+  delay = delay || 50;
+  let timer = null;
+  return function() {
+    let self = this;
+    clearTimeout(timer);
+    timer = setTimeout(fn.bind(self, arguments), delay);
+  };
+}
