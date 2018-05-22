@@ -70,3 +70,30 @@ function debounce(fn, delay) {
     timer = setTimeout(fn.bind(self, arguments), delay);
   };
 }
+
+//深拷贝1
+function deepCopy(old, newObj) {
+  var newObj = newObj || {};
+  for (var i in old) {
+    if (typeof old[i] === "object") {
+      //要考虑深复制问题了
+      if (old[i].constructor === Array) {
+        //这是数组
+        newObj[i] = [];
+      } else {
+        //这是对象
+        newObj[i] = {};
+      }
+      deepCopy(old[i], newObj[i]);
+    } else {
+      newObj[i] = old[i];
+    }
+  }
+  return newObj;
+}
+//深拷贝2
+//无法复制函数
+//原型链没了，对象就是object，所属的类没了。
+function deepCopy2(old) {
+  return JSON.parse(JSON.stringify(old));
+}
