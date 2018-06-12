@@ -165,3 +165,42 @@ if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
 else {
   printf("%s\n", "今年是平年");
 }
+
+//给定两个字符串形式的非负整数 a b ，计算它们的和
+function sumStrings(a, b) {
+  let result = [];
+  let temp = 0;
+  let arr1 = a.split("");
+  let arr2 = b.split("");
+  if (arr1.length > arr2.length) {
+    let len = arr1.length - arr2.length
+    for (let i = 0; i < len; i++) {
+      arr2.unshift("0");
+    }
+  } else if (arr1.length < arr2.length) {
+    let len = arr2.length - arr1.length
+    for (let i = 0; i < len; i++) {
+      arr1.unshift("0");
+    }
+  }
+  for (let i = arr1.length - 1; i >= 0; i--) {
+    if (parseInt(arr1[i]) + parseInt(arr2[i]) >= 10) {
+      if (i == 0) {
+        result.push((parseInt(arr1[i]) + parseInt(arr2[i])) % 10);
+        result[result.length - 1] += temp;
+        result.push(1);
+      } else {
+        result.push((parseInt(arr1[i]) + parseInt(arr2[i])) % 10);
+        result[result.length - 1] += temp;
+        temp = 1;
+      }
+    } else {
+      result.push(parseInt(arr1[i]) + parseInt(arr2[i]));
+      result[result.length - 1] += temp;
+      temp = 0;
+      console.log(result)
+    }
+  }
+  console.log("result:", result.reverse().join(""));
+  return result.reverse().join("");
+}
