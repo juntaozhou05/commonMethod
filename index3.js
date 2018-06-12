@@ -167,7 +167,7 @@ else {
 }
 
 //给定两个字符串形式的非负整数 a b ，计算它们的和
-function sumStrings(a, b) {
+var addStrings = function (a, b) {
   let result = [];
   let temp = 0;
   let arr1 = a.split("");
@@ -184,23 +184,19 @@ function sumStrings(a, b) {
     }
   }
   for (let i = arr1.length - 1; i >= 0; i--) {
-    if (parseInt(arr1[i]) + parseInt(arr2[i]) >= 10) {
+    if ((parseInt(arr1[i]) + parseInt(arr2[i]) + temp) >= 10) {
       if (i == 0) {
-        result.push((parseInt(arr1[i]) + parseInt(arr2[i])) % 10);
-        result[result.length - 1] += temp;
+        result.push(((parseInt(arr1[i]) + parseInt(arr2[i]) + temp) % 10));
         result.push(1);
       } else {
-        result.push((parseInt(arr1[i]) + parseInt(arr2[i])) % 10);
-        result[result.length - 1] += temp;
+        result.push(((parseInt(arr1[i]) + parseInt(arr2[i]) + temp) % 10));
         temp = 1;
       }
     } else {
-      result.push(parseInt(arr1[i]) + parseInt(arr2[i]));
+      result.push((parseInt(arr1[i]) + parseInt(arr2[i])) % 10);
       result[result.length - 1] += temp;
       temp = 0;
-      console.log(result)
     }
   }
-  console.log("result:", result.reverse().join(""));
   return result.reverse().join("");
-}
+};
