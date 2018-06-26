@@ -42,6 +42,36 @@ Function.prototype.bind = function (context) {
   }
 }
 
+//高级bind
+Function.prototype.bind = function (context) {
+  var args = Array.prototype.slice(arguments, 1),
+    F = function () { },
+    self = this,
+    bound = function () {
+      var innerArgs = Array.prototype.slice.call(arguments);
+      var finalArgs = args.concat(innerArgs);
+      return self.apply((this instanceof F ? this : context), finalArgs);
+    };
+
+  F.prototype = self.prototype;
+  bound.prototype = new F();
+  return bound;
+};
+
+//es6bind
+Function.prototype.fakeBindES6 = function (context, ...rest) {
+  if (typeof this !== "function") {
+    throw new Error("Bind must be called on a function");
+  }
+  var self = this;
+  return function inner(...args) {
+    if (this instanceof inner) {
+      return new self(...rest, ...args);
+    }
+    return self.apply(context, rest.concat(args));
+  };
+};
+
 //基础柯理化
 function curry(fn) {
   if (typeof fn !== "function") {
@@ -93,3 +123,4 @@ function add() {
   }
   return fn;
 }
+

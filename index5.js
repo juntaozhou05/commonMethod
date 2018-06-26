@@ -44,7 +44,7 @@ runFn().then(val => {
 function throttle(fn, delay) {
   delay = delay || 50;
   let statTime = 0;
-  return function() {
+  return function () {
     statTime === 0 && fn.apply(arguments);
     let currentTime = new Date();
     if ((currentTime = statTime > delay)) {
@@ -64,7 +64,7 @@ throttleFn(); //只会执行一次
 function debounce(fn, delay) {
   delay = delay || 50;
   let timer = null;
-  return function() {
+  return function () {
     let self = this;
     clearTimeout(timer);
     timer = setTimeout(fn.bind(self, arguments), delay);
@@ -97,3 +97,31 @@ function deepCopy(old, newObj) {
 function deepCopy2(old) {
   return JSON.parse(JSON.stringify(old));
 }
+
+//实现event bus（发布订阅模式）
+class EventEmeitter {
+  constructor() {
+    this._events = this._events || new Map();
+    this._maxListeners = this._maxListeners || 10;
+  }
+  emit(type, ...args) {
+    let handler;
+    handler = this._events.get(type);
+    if (args.length > 0) {
+      handler.apply(this, args);
+    } else {
+      handler.call(this);
+    }
+    return true;
+  }
+  addListener(type, fn) {
+    if (!this._events.get(type)) {
+      this._events.set(type, fn);
+    }
+  }
+}
+const emitter = new EventEmeitter();
+emitter.addListener("arson", man => {
+  console.log(`expel:${man}`);
+});
+emitter.emit("arson", "low-end");

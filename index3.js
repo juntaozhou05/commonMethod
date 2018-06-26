@@ -55,6 +55,19 @@ function IEVersion() {
   }
 }
 
+//汉罗塔
+function hanluo(n, a, b, c) {
+  //先将a上的n-1借助c移动到b  直接将a上的从a移动到c  最后将b撒好给你的n-1个借助a移动到c
+  if (n == 1) {
+    console.log(`将${n}从${a}移动到${c}`);
+  } else {
+    hanluo(n - 1, a, c, b)
+    console.log(`将${n - 1}从${a}移动到${c}`);
+    hanluo(n - 1, b, a, c);
+  }
+}
+hanluo(3, "a", "b", "c")
+
 //判断一个数字在数组中出现次数超过数组的一半
 function MoreThanHalfNum_Solution(numbers) {
   // write code here

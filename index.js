@@ -49,7 +49,7 @@ let desk = new Desk("66");
 
 //原型式继承
 function obj(o) {
-  function F() {}
+  function F() { }
   F.prototype = o;
   return new F();
 }
@@ -63,7 +63,7 @@ let box1 = obj(box);
 
 //寄生组合继承
 function object(o) {
-  function F() {}
+  function F() { }
   F.prototype = o;
   return new F();
 }
@@ -182,3 +182,21 @@ const clone = parent => {
   };
   return _clone(parent);
 };
+
+//缓存函数
+var memoize = function (f) {
+  var cache = {};
+  return function () {
+    var arg_str = JSON.stringify(arguments);
+    return (cache[arg_str] = cache[arg_str] || f.apply(f, arguments));
+  };
+};
+var sum = function () {
+  let result = 1;
+  for (let i = 0; i < arguments.length; i++) {
+    result = result * arguments[i];
+  }
+  return result;
+};
+let memo = memoize(sum);
+console.log(memoize(sum)(1, 2, 3));
