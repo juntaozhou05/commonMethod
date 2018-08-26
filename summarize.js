@@ -6,3 +6,6 @@ module.exports = { entry: { app: ['babel-polyfill', './src/main.js'] } }
 routes: [ { path: '/index', component: index, meta: { title: '主页' } }, { path: '/about', component: about, meta: { title: '关于' } } ]
 
 import router from './router' router.beforeEach((to, from, next) => { let title = to.meta.title; title && (document.title = to.meta.title); next(); })
+
+解决跨域请求
+module.exports = { dev: { proxyTable: { '/api': { target: 'http://www.xxxx.com', // 代理目标 changeOrigin: true, pathRewrite: { '^/api': '' } } }, } }
